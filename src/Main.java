@@ -6,7 +6,7 @@ public class Main {
 
   // static String server = "http://127.0.0.1:5000";
   static String server = "http://bohnenspiel.informatik.uni-mannheim.de";
-  static String name = "random-AI";
+  static String name = "minimaxi";
   static GameState gameState = new GameState();
 
 
@@ -35,7 +35,7 @@ public class Main {
         return;
       }
     }
-    MiniMax.setBeginInts(0);
+    Game.setBeginInts(0);
     play(gameID, 0);
   }
 
@@ -54,7 +54,7 @@ public class Main {
     String state = load(url);
     System.out.println("Join-Game-State: " + state);
     if (state.equals("1")) {
-      MiniMax.setBeginInts(6);
+      Game.setBeginInts(6);
       play(gameID, 6);
     } else if (state.equals("0")) {
       System.out.println("error (join game)");
@@ -82,24 +82,18 @@ public class Main {
       if (stateID != 2 && ((start <= moveState && moveState <= end) || moveState == -1)) {
         if (moveState != -1) {
           int selectedField = moveState - 1;
-          updateBoard(gameState.pits, selectedField);
+          updateBoard(gameState, selectedField);
           System.out.println("Gegner waehlte: " + moveState + " /\t" + gameState.storeRight + " -"
               + " " + gameState.storeLeft);
           System.out.println(printBoard(gameState.pits) + "\n");
         }
         // calculate fieldID
-        int selectField;
+        int selectField = MiniMax.miniMaxSearch(gameState);
 
         // System.out.println("Finde Zahl: ");
 
-        do {
-          //IMPLEMENT MINIMAX HERE
 
-          selectField = (int) (Math.random() * 6) + offset;
-          // System.out.println("\t-> " + selectField );
-        } while (gameState.pits[selectField] == 0);
-
-        updateBoard(gameState.pits, selectField);
+        updateBoard(gameState, selectField);
         System.out.println("Waehle Feld: " + (selectField + 1) + " /\t" + gameState.storeRight +
             " - " + gameState.storeLeft);
         System.out.println(printBoard(gameState.pits) + "\n\n");
@@ -118,29 +112,30 @@ public class Main {
   }
 
 
-  static int[] updateBoard(int[] board, int field) {
+  static GameState updateBoard(GameState gameState, int field) {
+    System.out.println(gameState.toString());
     int startField = field;
 
-    int value = board[field];
-    board[field] = 0;
+    int value = gameState.pits[field];
+    gameState.pits[field] = 0;
     while (value > 0) {
       field = (++field) % 12;
-      board[field]++;
+      gameState.pits[field]++;
       value--;
     }
 
-    if (board[field] == 2 || board[field] == 4 || board[field] == 6) {
+    if (gameState.pits[field] == 2 || gameState.pits[field] == 4 || gameState.pits[field] == 6) {
       do {
         if (startField < 6) {
-          gameState.storeRight += board[field];
+          gameState.storeRight += gameState.pits[field];
         } else {
-          gameState.storeLeft += board[field];
+          gameState.storeLeft += gameState.pits[field];
         }
-        board[field] = 0;
+        gameState.pits[field] = 0;
         field = (field == 0) ? field = 11 : --field;
-      } while (board[field] == 2 || board[field] == 4 || board[field] == 6);
+      } while (gameState.pits[field] == 2 || gameState.pits[field] == 4 || gameState.pits[field] == 6);
     }
-    return board;
+    return gameState;
   }
 
 
