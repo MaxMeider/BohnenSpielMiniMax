@@ -5,10 +5,6 @@ public class Game {
     private static int maxBeginInt;
     private static int minBeginInt;
 
-    public static void toMove(GameState gameState) {
-
-    }
-
     public static LinkedList<Integer> getAvailableActions(GameState gameState, boolean isMax) {
         LinkedList<Integer> possibleMoves = new LinkedList<>();
         if (isMax) {
@@ -35,12 +31,11 @@ public class Game {
                 return gameState.storeLeft;
             else
                 return gameState.storeRight;
-        }
-        else{
+        } else {
             if (minBeginInt == 6)
-                return gameState.storeLeft;
+                return -1 * gameState.storeLeft;
             else
-                return gameState.storeRight;
+                return -1 * gameState.storeRight;
         }
     }
 
