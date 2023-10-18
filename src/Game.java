@@ -25,18 +25,11 @@ public class Game {
     }
 
 
-    public static int getEvaluation(GameState gameState, boolean isMax) {
-        if (isMax) {
-            if (maxBeginInt == 6)
-                return gameState.storeLeft;
-            else
-                return gameState.storeRight;
-        } else {
-            if (minBeginInt == 6)
-                return -1 * gameState.storeLeft;
-            else
-                return -1 * gameState.storeRight;
-        }
+    public static int getEvaluation(GameState gameState) {
+        if (maxBeginInt == 6)
+            return gameState.storeLeft - gameState.storeRight;
+        else
+            return gameState.storeRight - gameState.storeLeft;
     }
 
     public static boolean isTerminal(GameState gameState) {

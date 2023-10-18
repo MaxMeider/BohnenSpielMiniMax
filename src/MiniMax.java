@@ -8,7 +8,7 @@ public class MiniMax {
 
     public static int[] maxValue(GameState gameState, int depth, int alpha, int beta) {
         if (depth == 0) {
-            return new int[]{Game.getEvaluation(gameState, true), 0};
+            return new int[]{Game.getEvaluation(gameState), 0};
         }
         int highestVal = Integer.MIN_VALUE;
         int move = 0;
@@ -29,7 +29,7 @@ public class MiniMax {
 
     public static int[] minValue(GameState gameState, int depth, int alpha, int beta) {
         if (depth == 0) {
-            return new int[]{Game.getEvaluation(gameState, false), 0};
+            return new int[]{Game.getEvaluation(gameState), 0};
         }
         int lowestVal = Integer.MAX_VALUE;
         int move = 0;

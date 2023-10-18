@@ -12,9 +12,9 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         // System.out.println(load(server));
-        //createGame();
+        createGame();
         // openGames();
-        joinGame("617");
+        //joinGame("1801");
     }
 
 
